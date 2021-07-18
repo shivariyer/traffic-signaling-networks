@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+runner
+
+# Folders to exclude
+obj/
+results/
+output/
