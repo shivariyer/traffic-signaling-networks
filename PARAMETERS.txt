@@ -1,0 +1,27 @@
+# 1. # of links
+# 2. List of (cstar, d) pairs for each link
+# 3. # of sources
+# 4. for each source:
+# 	- source ID
+# 	- link ID
+# 	- number of bursts
+#		- (bStart, bEnd, bRate) for each burst
+#	- number of routes
+# 		- routeLength
+#			- full route
+# 5. # of sinks
+# 6. List of (sinkId, linkID) for each sink
+# 7. # of junctions
+# 8. for each junction:
+# 	- junctionID
+# 	- is All Green
+# 	- number of input links
+#		- linkID for each link
+# 	- number of output links
+# 		- linkID for each link
+# 9. # of merges
+# for each merge:
+# 	- mergeID
+# 	- number of input links
+# 		- linkID for each link (all must have same cstar)
+# 	- output linkID
