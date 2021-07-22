@@ -13,7 +13,7 @@
 #include <cassert>
 #include <cstdlib>
 
-#define MAX_EPOCH 10
+#define MAX_EPOCH 1
 #define MAX_LINKS 200
 #define MAX_DEGREE 20
 #define DEBUG 1
