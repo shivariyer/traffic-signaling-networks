@@ -57,58 +57,55 @@ Link::~Link()
 
 bool Link::insert_car(Car carToInsert, bool force)
 {
-    // Only the source is allowed to "force" a car insertion,
-    // ignoring the link capacity.
-
     assert(linkId > 0);
-    bool valid = false;
 
     // As an additional safety precaution, make sure that this
     // link is in the route for the car.
+    bool valid = false;
     for (int i=0; i<carToInsert.route.size(); i++)
 	if (carToInsert.route[i] == linkId) {
 	    valid = true;
-	    if (force)
-		assert(i == 0);
+	    break;
 	}
 
     if (!valid) {
 	printf("\nlinkId: %d. carId: %d Car route: ", linkId, carToInsert.carId);
 	for (int a=0; a<carToInsert.route.size(); a++)
 	    printf("%d ", carToInsert.route[a]);
+	assert(false);
     }
-    assert(valid);
 
-    if (force && (cars.size() > bstar)) {
-	// The source is trying to insert a car, but the link
-	// already holds more than bstar. In this case, *drop*
-	// the car.
+    // Only the source is allowed to "force" a car insertion,
+    // ignoring the link capacity.
+    if (force) 
+	assert(linkId == carToInsert.route[0]);
 
+    bool success = false;
+    
+    if (force && (cars.size() >= bstar)) {
+	// The source is trying to insert a car, but the link already
+	// holds at least bstar. In this case, *drop* the car.
 	ERRORPRINT("%s: Dropping car: linkId %d carId %d car timestamp %f, startstamp %f qsize %d bstar %d\n",
 		   __func__, linkId, carToInsert.carId,
 		   carToInsert.timestamp, carToInsert.startstamp,
 		   (int) cars.size(), bstar);
-	return true;
-    }
-
-    if (cars.size() < bmax) {
+	success = true;
+    } else if (cars.size() < bmax) {
+	// there is space in the link
 	PRINTF("%s: linkId %d carId %d car timestamp %f startstamp %f qsize %d\n",
 	       __func__, linkId, carToInsert.carId,
 	       carToInsert.timestamp, carToInsert.startstamp, (int)cars.size());
-
 	cars.push_front(carToInsert);
-	return true;
-    }
-
-    if (!force) {
+	success = true;
+    } else {
+	// there is no more space in the link
 	ERRORPRINT("%s: ERROR. linkId %d carId %d timestamp %f bmax %d num_cars %d. Caused by an allGreen signal.\n",
 		   __func__, linkId, carToInsert.carId, carToInsert.timestamp,
 		   bmax, (int)cars.size());
-	return false;
+	success = false;
     }
 
-    cars.push_front(carToInsert);
-    return true;
+    return success;
 }
 
 bool Link::delete_car()
