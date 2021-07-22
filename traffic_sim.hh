@@ -53,6 +53,7 @@ public:
     Car* get_front();
     float get_output_capacity();
     int get_delay();
+    bool set_capacity(float cstar); // modify the capacity of the link
 };
 
 

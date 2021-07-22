@@ -174,6 +174,20 @@ int Link::get_delay()
 }
 
 
+bool Link::set_capacity(float cstar)
+{
+    int qsize = cars.size();
+    if (qsize > cstar * delay * 3)
+	// if the new bmax is lesser than the current buffer capacity,
+	// then the change is impossible, so just return fail
+	return false;
+    this->cstar = cstar;
+    bstar = cstar * delay;
+    bmax = bstar * 3;
+    return true;
+}
+
+
 Source::Source(int sid, int lid) :
     sourceId(sid), linkId(lid), numRoutes(0), currentTime(-1)
 {
