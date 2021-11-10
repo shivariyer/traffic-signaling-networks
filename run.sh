@@ -11,13 +11,13 @@ outpath=output/${scenario}_sim.out
 
 echo "Starting simulation for $scenario for $simtime seconds ..."
 
-./traffic_sim $inpath $simtime > $outpath
+./runner $inpath $simtime > $outpath
 sleep 10
 
-echo "Done.\nParsing the output ..."
+echo -e "Done.\nParsing the output ..."
 python scripts/parse_sim_output.py $outpath
 
-echo "Done.\nPlotting the exit rate ..."
+echo -e "Done.\nPlotting the exit rate ..."
 python scripts/plot_exit_rate.py ${outpath/sim.out/exrates.txt}
 
 echo "All done."
