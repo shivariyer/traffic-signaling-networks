@@ -668,7 +668,7 @@ bool Junction::exec_epoch(int cTime)
 	// Equal proportions. Override the previous calculations and equally divide.
 	for (int i=0; i<ipLinks.size(); i++) {
 	    IPlinkToUse = ipLinks[i];
-	    greenTimes[IPlinkToUse] = MAX_EPOCH / ipLinks.size();
+	    greenTimes[IPlinkToUse] = float(MAX_EPOCH) / ipLinks.size();
 	}
     }
 
